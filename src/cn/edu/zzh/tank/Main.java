@@ -5,9 +5,10 @@ import java.awt.*;
 /**
  * @author zzh
  * @date 2020-05-31 20:58
- * @description
+ * @description tank main method
  */
-public class T {
+public class Main {
+
     public static void main(String[] args) {
         TankFrame tankFrame = new TankFrame();
     }
