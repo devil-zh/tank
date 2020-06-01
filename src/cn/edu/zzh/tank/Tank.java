@@ -10,6 +10,7 @@ import java.awt.*;
 public class Tank {
     private int x = 200, y = 200;
     private Dir dir;
+    private boolean moving =false;
     private static final int SPEED = 10;
 
     public Tank(int x, int y, Dir dir){
@@ -20,6 +21,12 @@ public class Tank {
 
     public void paint(Graphics g) {
         g.fillRect(x, y, 50, 50);
+        move();
+
+    }
+
+    private void move() {
+        if (moving)
         switch (dir){
             case UP:
                 y -= SPEED;
@@ -58,5 +65,13 @@ public class Tank {
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }

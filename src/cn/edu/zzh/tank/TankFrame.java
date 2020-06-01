@@ -55,8 +55,6 @@ public class TankFrame extends Frame{
                 case KeyEvent.VK_S:
                     bS = true;
                     break;
-                default:
-                    break;
             }
             setMainTankDir();
         }
@@ -77,17 +75,21 @@ public class TankFrame extends Frame{
                 case KeyEvent.VK_S:
                     bS = false;
                     break;
-                default:
-                    break;
             }
             setMainTankDir();
         }
 
         private void setMainTankDir() {
-            if (bA) myTank.setDir(Dir.LEFT);
-            if (bS) myTank.setDir(Dir.DOWN);
-            if (bD) myTank.setDir(Dir.RIGHT);
-            if (bW) myTank.setDir(Dir.UP);
+            if (!bW && !bD && !bS && !bA){
+                myTank.setMoving(false);
+            }else {
+                myTank.setMoving(true);
+                if (bA) myTank.setDir(Dir.LEFT);
+                if (bS) myTank.setDir(Dir.DOWN);
+                if (bD) myTank.setDir(Dir.RIGHT);
+                if (bW) myTank.setDir(Dir.UP);
+            }
+
         }
 
     }
