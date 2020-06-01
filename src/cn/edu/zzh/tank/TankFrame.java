@@ -11,12 +11,14 @@ import java.awt.event.WindowEvent;
  * @date 2020-05-31 21:32
  * @description
  */
-public class TankFrame extends Frame{
+public class TankFrame extends Frame {
 
-    Tank myTank = new Tank(200,200, Dir.UP);
+    Tank myTank = new Tank(200, 200, Dir.UP);
+    Bullet bullet = new Bullet(300, 300, Dir.DOWN);
+    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
-    public TankFrame(){
-        setSize(800, 600);
+    public TankFrame() {
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
         setTitle("tank war");
         setVisible(true);
@@ -28,10 +30,26 @@ public class TankFrame extends Frame{
             }
         });
     }
+    Image offScreenImage = null;
+    @Override
+    public void update(Graphics g) {
+        if (offScreenImage == null){
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color color = gOffScreen.getColor();
+        gOffScreen.setColor(Color.GRAY);
+        gOffScreen.fillRect(0,0,GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.setColor(color);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage,0,0,null);
+    }
+
 
     @Override
     public void paint(Graphics g) {
         myTank.paint(g);
+        bullet.paint(g);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -39,10 +57,11 @@ public class TankFrame extends Frame{
         boolean bD = false;
         boolean bW = false;
         boolean bS = false;
+
         @Override
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
-            switch (key){
+            switch (key) {
                 case KeyEvent.VK_A:
                     bA = true;
                     break;
@@ -62,7 +81,7 @@ public class TankFrame extends Frame{
         @Override
         public void keyReleased(KeyEvent e) {
             int key = e.getKeyCode();
-            switch (key){
+            switch (key) {
                 case KeyEvent.VK_A:
                     bA = false;
                     break;
@@ -80,14 +99,25 @@ public class TankFrame extends Frame{
         }
 
         private void setMainTankDir() {
-            if (!bW && !bD && !bS && !bA){
+            if (!bW && !bD && !bS && !bA) {
                 myTank.setMoving(false);
-            }else {
+            } else {
                 myTank.setMoving(true);
-                if (bA) myTank.setDir(Dir.LEFT);
-                if (bS) myTank.setDir(Dir.DOWN);
-                if (bD) myTank.setDir(Dir.RIGHT);
-                if (bW) myTank.setDir(Dir.UP);
+                if (bA) {
+                    myTank.setDir(Dir.LEFT);
+                }
+
+                if (bS) {
+                    myTank.setDir(Dir.DOWN);
+                }
+
+                if (bD) {
+                    myTank.setDir(Dir.RIGHT);
+                }
+
+                if (bW) {
+                    myTank.setDir(Dir.UP);
+                }
             }
 
         }
