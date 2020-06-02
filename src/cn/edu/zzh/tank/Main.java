@@ -1,7 +1,5 @@
 package cn.edu.zzh.tank;
 
-import java.awt.*;
-
 /**
  * @author zzh
  * @date 2020-05-31 20:58
@@ -13,9 +11,9 @@ public class Main {
         TankFrame tankFrame = new TankFrame();
         //敌方坦克初始化
         for (int i = 0; i < 5; i++) {
-            tankFrame.tankList.add(new Tank(i*100,100,Dir.DOWN, Group.BAD, tankFrame));
+            tankFrame.tankList.add(new Tank(i*150,100,Dir.DOWN, Group.BAD, tankFrame));
         }
-
+        new Thread(()->new Audio("audio/war1.wav").loop()).start();
         while (true){
             Thread.sleep(50);
             tankFrame.repaint();

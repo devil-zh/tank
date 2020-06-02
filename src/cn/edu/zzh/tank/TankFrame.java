@@ -55,6 +55,7 @@ public class TankFrame extends Frame {
         Color color = g.getColor();
         g.setColor(Color.WHITE);
         g.drawString("子弹个数："+bulletList.size(),10,60);
+        g.drawString("敌人个数："+tankList.size(),10,80);
         g.setColor(color);
         if (myTank.isLiving()){
             myTank.paint(g);
@@ -76,6 +77,8 @@ public class TankFrame extends Frame {
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++){
                 bulletList.get(i).collidewith(tankList.get(j));
+                if (myTank.isLiving())
+                    bulletList.get(i).collidewith(myTank);
             }
         }
         //敌我坦克相撞
@@ -117,6 +120,7 @@ public class TankFrame extends Frame {
                     break;
             }
             setMainTankDir();
+           // new Thread(()->new Audio("audio/tank_move.wav").play()).start();
         }
         //监听方向按键
         @Override

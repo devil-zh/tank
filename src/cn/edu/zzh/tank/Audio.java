@@ -50,8 +50,8 @@ public class Audio {
 			audioFormat = audioInputStream.getFormat();
 			dataLine_info = new DataLine.Info(SourceDataLine.class, audioFormat);
 			sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLine_info);
-			//FloatControl volctrl=(FloatControl)sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);   
-			//volctrl.setValue(-40);// 
+			//FloatControl volctrl=(FloatControl)sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
+			//volctrl.setValue(-40);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,9 +90,9 @@ public class Audio {
 	}
 
 	public static void main(String[] args) {
-		// Audio a = new Audio("audio/explode.wav");
-		Audio a = new Audio("audio/war1.wav");
-		a.loop();
+		//Audio a = new Audio("audio/explode.wav");
+		//Audio a = new Audio("audio/war1.wav");
+		//a.loop();
 
 	}
 

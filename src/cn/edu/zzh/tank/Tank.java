@@ -17,8 +17,8 @@ public class Tank {
     private boolean living = true;
     private Group group = Group.BAD;
     private Random random = new Random();
-    public static final int WIDTH = ResourceMgr.tankD.getWidth();
-    public static final int HEIGHT = ResourceMgr.tankD.getHeight();
+    public static final int WIDTH = ResourceMgr.goodTankD.getWidth();
+    public static final int HEIGHT = ResourceMgr.goodTankD.getHeight();
 
     public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame){
         this.x = x;
@@ -36,16 +36,16 @@ public class Tank {
         if (!living) tankFrame.tankList.remove(this);
         switch (dir){
             case UP:
-                g.drawImage(ResourceMgr.tankU, x, y, null);
+                g.drawImage(ResourceMgr.goodTankU, x, y, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.tankD, x, y, null);
+                g.drawImage(ResourceMgr.goodTankD, x, y, null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMgr.tankR, x, y, null);
+                g.drawImage(ResourceMgr.goodTankR, x, y, null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMgr.tankL, x, y, null);
+                g.drawImage(ResourceMgr.goodTankL, x, y, null);
                 break;
         }
 
@@ -69,7 +69,7 @@ public class Tank {
                 x += SPEED;
                 break;
         }
-        if (random.nextInt(10)> 8) this.fire();
+        if (random.nextInt(10)> 8 && this.group == Group.BAD) this.fire();
 
     }
 
@@ -110,7 +110,11 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(this.x+20, this.y+20, this.dir, this.group, this.tankFrame));
+        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
+        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
+
+        tankFrame.bulletList.add(new Bullet(bX, bY, this.dir, this.group, this.tankFrame));
+        if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
     }
 
     public void die() {
