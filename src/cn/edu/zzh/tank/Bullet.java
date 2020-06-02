@@ -10,9 +10,9 @@ import java.awt.*;
 public class Bullet {
     private int x, y;
     private Dir dir;
-    private final int WIDTH = 10, HEIGHT = 10;
+    public static final int WIDTH = ResourceMgr.bulletD.getWidth(), HEIGHT = ResourceMgr.bulletD.getHeight();
     private static final int SPEED = 10;
-    private boolean live = true;
+    private boolean living = true;
     private TankFrame tankFrame;
 
     public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
@@ -23,7 +23,7 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
-        if (!live){
+        if (!living){
             tankFrame.bulletList.remove(this);
         }
         switch (dir){
@@ -58,7 +58,7 @@ public class Bullet {
                 x += SPEED;
                 break;
         }
-        if (x < 0 || y < 0 || x > tankFrame.GAME_WIDTH || y > tankFrame.GAME_HEIGHT) live = false;
+        if (x < 0 || y < 0 || x > tankFrame.GAME_WIDTH || y > tankFrame.GAME_HEIGHT) living = false;
     }
 
     public Dir getDir() {
@@ -67,5 +67,18 @@ public class Bullet {
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+
+    public void collidewith(Tank tank) {
+        Rectangle rectangle1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(),Tank.WIDTH, Tank.HEIGHT);
+        if (rectangle1.intersects(rectangle2)){
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

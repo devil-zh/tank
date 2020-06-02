@@ -13,6 +13,8 @@ public class Tank {
     private boolean moving =false;
     private static final int SPEED = 5;
     private TankFrame tankFrame;
+    private boolean living = true;
+    public static final int WIDTH = ResourceMgr.tankD.getWidth(), HEIGHT = ResourceMgr.tankD.getHeight();
 
     public Tank(int x, int y, Dir dir, TankFrame tankFrame){
         this.x = x;
@@ -22,6 +24,7 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+        if (!living) tankFrame.tankList.remove(this);
         switch (dir){
             case UP:
                 g.drawImage(ResourceMgr.tankU, x, y, null);
@@ -59,6 +62,22 @@ public class Tank {
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public Dir getDir() {
         return dir;
     }
@@ -77,5 +96,18 @@ public class Tank {
 
     public void fire() {
         tankFrame.bulletList.add(new Bullet(this.x+20, this.y+20, this.dir, this.tankFrame));
+    }
+
+    public void die() {
+        this.living = false;
+    }
+
+    public void collidewith(Tank tank) {
+        Rectangle rectangle1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(),Tank.WIDTH, Tank.HEIGHT);
+        if (rectangle1.intersects(rectangle2)){
+            tank.die();
+            this.die();
+        }
     }
 }
