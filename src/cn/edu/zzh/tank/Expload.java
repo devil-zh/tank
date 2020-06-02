@@ -20,13 +20,21 @@ public class Expload {
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
+       // new Audio("audio/explode.wav");
     }
 
     public void paint(Graphics g) {
+        if (!living) tankFrame.exploadList.remove(this);
        g.drawImage(ResourceMgr.exploads[step++],x, y, null);
-       if (step >= ResourceMgr.exploads.length)
+       if (step >= ResourceMgr.exploads.length){
            step = 0;
+           living = false;
+       }
+
 
     }
 
+    public boolean isLiving() {
+        return living;
+    }
 }

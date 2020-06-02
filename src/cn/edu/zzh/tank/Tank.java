@@ -11,7 +11,7 @@ import java.util.Random;
 public class Tank {
     private int x = 200, y = 200;
     private Dir dir = Dir.DOWN;
-    private boolean moving =true;
+    private boolean moving =false;
     private static final int SPEED = 5;
     private TankFrame tankFrame;
     private boolean living = true;
@@ -124,6 +124,7 @@ public class Tank {
         if (rectangle1.intersects(rectangle2)){
             tank.die();
             this.die();
+            tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
         }
     }
 }
