@@ -18,6 +18,7 @@ public class TankFrame extends Frame {
     Tank myTank = new Tank(200, 200, Dir.UP, Group.GOOD,this);
     List<Bullet> bulletList = new ArrayList<Bullet>();
     List<Tank> tankList = new ArrayList<Tank>();
+    Expload expload = new Expload(100, 100, this);
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() {
@@ -41,7 +42,7 @@ public class TankFrame extends Frame {
         }
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color color = gOffScreen.getColor();
-        gOffScreen.setColor(Color.GRAY);
+        gOffScreen.setColor(Color.black);
         gOffScreen.fillRect(0,0,GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(color);
         paint(gOffScreen);
@@ -81,6 +82,7 @@ public class TankFrame extends Frame {
         for (int i = 0; i < tankList.size(); i++) {
             myTank.collidewith(tankList.get(i));
         }
+        expload.paint(g);
 
     }
 

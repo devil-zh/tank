@@ -10,7 +10,8 @@ import java.awt.*;
 public class Bullet {
     private int x, y;
     private Dir dir;
-    public static final int WIDTH = ResourceMgr.bulletD.getWidth(), HEIGHT = ResourceMgr.bulletD.getHeight();
+    public static final int WIDTH = ResourceMgr.bulletD.getWidth();
+    public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static final int SPEED = 10;
     private boolean living = true;
     private TankFrame tankFrame;

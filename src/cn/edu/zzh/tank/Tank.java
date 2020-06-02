@@ -12,12 +12,13 @@ public class Tank {
     private int x = 200, y = 200;
     private Dir dir = Dir.DOWN;
     private boolean moving =true;
-    private static final int SPEED = 1;
+    private static final int SPEED = 5;
     private TankFrame tankFrame;
     private boolean living = true;
     private Group group = Group.BAD;
     private Random random = new Random();
-    public static final int WIDTH = ResourceMgr.tankD.getWidth(), HEIGHT = ResourceMgr.tankD.getHeight();
+    public static final int WIDTH = ResourceMgr.tankD.getWidth();
+    public static final int HEIGHT = ResourceMgr.tankD.getHeight();
 
     public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame){
         this.x = x;
