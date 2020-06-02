@@ -16,6 +16,7 @@ public class Bullet {
     private boolean living = true;
     private TankFrame tankFrame;
     private Group group = Group.BAD;
+    private Rectangle rectangle = new Rectangle();
 
     public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
         this.x = x;
@@ -23,6 +24,11 @@ public class Bullet {
         this.dir = dir;
         this.group = group;
         this.tankFrame = tankFrame;
+
+        rectangle.x = x;
+        rectangle.y = y;
+        rectangle.width = WIDTH;
+        rectangle.height = HEIGHT;
     }
 
     public void paint(Graphics g) {
@@ -61,6 +67,9 @@ public class Bullet {
                 x += SPEED;
                 break;
         }
+        //update rectangle
+        rectangle.x = this.x;
+        rectangle.y = this.y;
         if (x < 0 || y < 0 || x > tankFrame.GAME_WIDTH || y > tankFrame.GAME_HEIGHT) living = false;
     }
 
@@ -75,9 +84,7 @@ public class Bullet {
     public void collidewith(Tank tank) {
         if (this.group == tank.getGroup()) return;
         //todo: 只用一个Rectangle
-        Rectangle rectangle1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(),Tank.WIDTH, Tank.HEIGHT);
-        if (rectangle1.intersects(rectangle2)){
+        if (rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
             tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));

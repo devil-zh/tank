@@ -19,6 +19,7 @@ public class Tank {
     private Random random = new Random();
     public static final int WIDTH = ResourceMgr.goodTankD.getWidth();
     public static final int HEIGHT = ResourceMgr.goodTankD.getHeight();
+    Rectangle rectangle = new Rectangle();
 
     public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame){
         this.x = x;
@@ -26,6 +27,11 @@ public class Tank {
         this.dir = dir;
         this.group = group;
         this.tankFrame = tankFrame;
+
+        rectangle.x = x;
+        rectangle.y = y;
+        rectangle.width = WIDTH;
+        rectangle.height = HEIGHT;
     }
 
     public boolean isLiving() {
@@ -69,12 +75,15 @@ public class Tank {
                 x += SPEED;
                 break;
         }
+        //update rectangle
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+
         if (random.nextInt(100)> 95 && this.group == Group.BAD) this.fire();
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.moving = true;
             randomDir();
         }
-
         bounksCheck();
 
     }
@@ -140,9 +149,7 @@ public class Tank {
 
     public void collidewith(Tank tank) {
         if (this.group == tank.getGroup()) return;
-        Rectangle rectangle1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(),Tank.WIDTH, Tank.HEIGHT);
-        if (rectangle1.intersects(rectangle2)){
+        if (rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
             tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
