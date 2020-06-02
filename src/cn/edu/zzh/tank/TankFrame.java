@@ -55,8 +55,14 @@ public class TankFrame extends Frame {
         g.setColor(Color.WHITE);
         g.drawString("子弹个数："+bulletList.size(),10,60);
         g.setColor(color);
+        if (myTank.isLiving()){
+            myTank.paint(g);
+        }else {
+            g.setColor(Color.WHITE);
+            g.drawString("GAME OVER",350,300);
+            g.setColor(color);
+        }
 
-        myTank.paint(g);
         //我方子弹
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(g);
@@ -68,9 +74,10 @@ public class TankFrame extends Frame {
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++){
                 bulletList.get(i).collidewith(tankList.get(j));
-                myTank.collidewith(tankList.get(j));
             }
-
+        }
+        for (int i = 0; i < tankList.size(); i++) {
+            myTank.collidewith(tankList.get(i));
         }
 
     }

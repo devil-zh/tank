@@ -23,6 +23,10 @@ public class Tank {
         this.tankFrame = tankFrame;
     }
 
+    public boolean isLiving() {
+        return living;
+    }
+
     public void paint(Graphics g) {
         if (!living) tankFrame.tankList.remove(this);
         switch (dir){
