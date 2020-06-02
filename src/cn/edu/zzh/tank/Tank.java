@@ -22,10 +22,21 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
-        Color color = g.getColor();
-        g.setColor(Color.ORANGE);
-        g.fillRect(x, y, 50, 50);
-        g.setColor(color);
+        switch (dir){
+            case UP:
+                g.drawImage(ResourceMgr.tankU, x, y, null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.tankD, x, y, null);
+                break;
+            case RIGHT:
+                g.drawImage(ResourceMgr.tankR, x, y, null);
+                break;
+            case LEFT:
+                g.drawImage(ResourceMgr.tankL, x, y, null);
+                break;
+        }
+
         move();
 
     }
@@ -65,6 +76,6 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(this.x, this.y, this.dir, this.tankFrame));
+        tankFrame.bulletList.add(new Bullet(this.x+20, this.y+20, this.dir, this.tankFrame));
     }
 }
