@@ -36,16 +36,16 @@ public class Tank {
         if (!living) tankFrame.tankList.remove(this);
         switch (dir){
             case UP:
-                g.drawImage(ResourceMgr.goodTankU, x, y, null);
+                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.goodTankD, x, y, null);
+                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMgr.goodTankR, x, y, null);
+                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMgr.goodTankL, x, y, null);
+                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                 break;
         }
 
@@ -75,6 +75,15 @@ public class Tank {
             randomDir();
         }
 
+        bounksCheck();
+
+    }
+
+    private void bounksCheck() {
+        if (this.x < 2) x = 2;
+        if (this.y < 28) y = 28;
+        if (this.x > tankFrame.GAME_WIDTH - Tank.WIDTH - 2) x = tankFrame.GAME_WIDTH - Tank.WIDTH - 2;
+        if (this.y > tankFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = tankFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
     }
 
     private void randomDir() {
