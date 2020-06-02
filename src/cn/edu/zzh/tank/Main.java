@@ -11,6 +11,11 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         TankFrame tankFrame = new TankFrame();
+        //敌方坦克初始化
+        for (int i = 0; i < 5; i++) {
+            tankFrame.tankList.add(new Tank(i*100,100,Dir.DOWN,tankFrame));
+        }
+
         while (true){
             Thread.sleep(50);
             tankFrame.repaint();

@@ -17,6 +17,7 @@ public class TankFrame extends Frame {
 
     Tank myTank = new Tank(200, 200, Dir.UP, this);
     List<Bullet> bulletList = new ArrayList<Bullet>();
+    List<Tank> tankList = new ArrayList<Tank>();
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() {
@@ -56,9 +57,13 @@ public class TankFrame extends Frame {
         g.setColor(color);
 
         myTank.paint(g);
-
+        //我方子弹
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(g);
+        }
+        //敌方坦克
+        for (int i = 0; i < tankList.size(); i++) {
+            tankList.get(i).paint(g);
         }
     }
 
