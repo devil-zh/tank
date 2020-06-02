@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class TankFrame extends Frame {
 
-    Tank myTank = new Tank(200, 200, Dir.UP, this);
+    Tank myTank = new Tank(200, 200, Dir.UP, Group.GOOD,this);
     List<Bullet> bulletList = new ArrayList<Bullet>();
     List<Tank> tankList = new ArrayList<Tank>();
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
@@ -71,11 +71,13 @@ public class TankFrame extends Frame {
         for (int i = 0; i < tankList.size(); i++) {
             tankList.get(i).paint(g);
         }
+        //子弹与坦克相撞
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++){
                 bulletList.get(i).collidewith(tankList.get(j));
             }
         }
+        //敌我坦克相撞
         for (int i = 0; i < tankList.size(); i++) {
             myTank.collidewith(tankList.get(i));
         }
@@ -110,7 +112,7 @@ public class TankFrame extends Frame {
             }
             setMainTankDir();
         }
-
+        //监听方向按键
         @Override
         public void keyReleased(KeyEvent e) {
             int key = e.getKeyCode();
@@ -130,7 +132,7 @@ public class TankFrame extends Frame {
             }
             setMainTankDir();
         }
-
+        //设置方向
         private void setMainTankDir() {
             if (!bW && !bD && !bS && !bA) {
                 myTank.setMoving(false);

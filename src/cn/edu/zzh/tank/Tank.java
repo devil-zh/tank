@@ -1,6 +1,7 @@
 package cn.edu.zzh.tank;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * @author zzh
@@ -9,17 +10,20 @@ import java.awt.*;
  */
 public class Tank {
     private int x = 200, y = 200;
-    private Dir dir;
-    private boolean moving =false;
-    private static final int SPEED = 5;
+    private Dir dir = Dir.DOWN;
+    private boolean moving =true;
+    private static final int SPEED = 1;
     private TankFrame tankFrame;
     private boolean living = true;
+    private Group group = Group.BAD;
+    private Random random = new Random();
     public static final int WIDTH = ResourceMgr.tankD.getWidth(), HEIGHT = ResourceMgr.tankD.getHeight();
 
-    public Tank(int x, int y, Dir dir, TankFrame tankFrame){
+    public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame){
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -64,6 +68,8 @@ public class Tank {
                 x += SPEED;
                 break;
         }
+        if (random.nextInt(10)> 8) this.fire();
+
     }
 
     public int getX() {
@@ -76,6 +82,10 @@ public class Tank {
 
     public int getY() {
         return y;
+    }
+
+    public Group getGroup() {
+        return group;
     }
 
     public void setY(int y) {
@@ -99,7 +109,7 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(this.x+20, this.y+20, this.dir, this.tankFrame));
+        tankFrame.bulletList.add(new Bullet(this.x+20, this.y+20, this.dir, this.group, this.tankFrame));
     }
 
     public void die() {
@@ -107,6 +117,7 @@ public class Tank {
     }
 
     public void collidewith(Tank tank) {
+        if (this.group == tank.getGroup()) return;
         Rectangle rectangle1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
         Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(),Tank.WIDTH, Tank.HEIGHT);
         if (rectangle1.intersects(rectangle2)){
