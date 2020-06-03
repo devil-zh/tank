@@ -30,8 +30,6 @@ public class Expload {
            step = 0;
            living = false;
        }
-
-
     }
 
     public boolean isLiving() {

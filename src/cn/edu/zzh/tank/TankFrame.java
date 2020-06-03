@@ -15,11 +15,12 @@ import java.util.List;
  */
 public class TankFrame extends Frame {
 
-    Tank myTank = new Tank(200, 200, Dir.UP, Group.GOOD,this);
+    Tank myTank = new Tank(200, 500, Dir.UP, Group.GOOD,this);
     List<Bullet> bulletList = new ArrayList<Bullet>();
     List<Tank> tankList = new ArrayList<Tank>();
     List<Expload> exploadList = new ArrayList<>();
-    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    static final int GAME_WIDTH = PropertiesMgr.getInstance().getInt("GAME_WIDTH");
+    static final int GAME_HEIGHT = PropertiesMgr.getInstance().getInt("GAME_HEIGHT");
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -76,9 +77,15 @@ public class TankFrame extends Frame {
         //子弹与坦克相撞
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++){
-                bulletList.get(i).collidewith(tankList.get(j));
+                bulletList.get(i).collidewithTank(tankList.get(j));
                 if (myTank.isLiving())
-                    bulletList.get(i).collidewith(myTank);
+                    bulletList.get(i).collidewithTank(myTank);
+            }
+        }
+        //子弹与子弹相互抵消
+        for (int i = 0; i <bulletList.size()-1 ; i++) {
+            for (int j = i+1; j < bulletList.size(); j++) {
+                bulletList.get(i).collidewithBullet(bulletList.get(j));
             }
         }
         //敌我坦克相撞
@@ -89,8 +96,6 @@ public class TankFrame extends Frame {
         for (int i = 0; i < exploadList.size(); i++) {
             exploadList.get(i).paint(g);
         }
-
-
     }
 
     class MyKeyListener extends KeyAdapter {

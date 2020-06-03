@@ -12,7 +12,7 @@ public class Bullet {
     private Dir dir;
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
-    private static final int SPEED = 10;
+    private static final int SPEED = PropertiesMgr.getInstance().getInt("bulletSpeed");
     private boolean living = true;
     private TankFrame tankFrame;
     private Group group = Group.BAD;
@@ -72,18 +72,17 @@ public class Bullet {
         rectangle.y = this.y;
         if (x < 0 || y < 0 || x > tankFrame.GAME_WIDTH || y > tankFrame.GAME_HEIGHT) living = false;
     }
-
-    public Dir getDir() {
-        return dir;
+    //敌我子弹相互抵消
+    public void collidewithBullet(Bullet bullet) {
+        if (this.group == bullet.getGroup()) return;
+        if (rectangle.intersects(bullet.rectangle)){
+            bullet.die();
+            this.die();
+        }
     }
 
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
-
-    public void collidewith(Tank tank) {
+    public void collidewithTank(Tank tank) {
         if (this.group == tank.getGroup()) return;
-        //todo: 只用一个Rectangle
         if (rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
@@ -93,5 +92,25 @@ public class Bullet {
 
     private void die() {
         this.living = false;
+    }
+
+    public Dir getDir() {
+        return dir;
+    }
+
+    public void setDir(Dir dir) {
+        this.dir = dir;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Group getGroup() {
+        return group;
     }
 }

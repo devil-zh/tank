@@ -10,7 +10,12 @@ import java.io.IOException;
  * @date 2020-06-02 9:23
  * @description
  */
-public class ResourceMgr {
+public enum ResourceMgr {
+    INSTANCE;
+
+    public ResourceMgr getInstance(){
+        return INSTANCE;
+    }
     public static BufferedImage goodTankL, goodTankU, goodTankR, goodTankD;
     public static BufferedImage badTankL, badTankU, badTankR, badTankD;
     public static BufferedImage bulletL, bulletU, bulletR, bulletD;

@@ -9,10 +9,10 @@ import java.util.Random;
  * @description 坦克实体类
  */
 public class Tank {
-    private int x = 200, y = 200;
+    private int x, y;
     private Dir dir = Dir.DOWN;
     private boolean moving =false;
-    private static final int SPEED = 5;
+    private static final int SPEED = PropertiesMgr.getInstance().getInt("tankSpeed");
     private TankFrame tankFrame;
     private boolean living = true;
     private Group group = Group.BAD;
@@ -34,8 +34,23 @@ public class Tank {
         rectangle.height = HEIGHT;
     }
 
-    public boolean isLiving() {
-        return living;
+    public void fire() {
+        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
+        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
+
+        tankFrame.bulletList.add(new Bullet(bX, bY, this.dir, this.group, this.tankFrame));
+        if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
+    }
+    public void die() {
+        this.living = false;
+    }
+    public void collidewith(Tank tank) {
+        if (this.group == tank.getGroup()) return;
+        if (rectangle.intersects(tank.rectangle)){
+            tank.die();
+            this.die();
+            tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
+        }
     }
 
     public void paint(Graphics g) {
@@ -54,11 +69,8 @@ public class Tank {
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                 break;
         }
-
         move();
-
     }
-
     private void move() {
         if (moving)
         switch (dir){
@@ -75,24 +87,25 @@ public class Tank {
                 x += SPEED;
                 break;
         }
-        //update rectangle
-        rectangle.x = this.x;
-        rectangle.y = this.y;
 
         if (random.nextInt(100)> 95 && this.group == Group.BAD) this.fire();
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.moving = true;
             randomDir();
         }
+        //边界检测
         bounksCheck();
 
+        //update rectangle
+        rectangle.x = this.x;
+        rectangle.y = this.y;
     }
 
     private void bounksCheck() {
         if (this.x < 2) x = 2;
         if (this.y < 28) y = 28;
-        if (this.x > tankFrame.GAME_WIDTH - Tank.WIDTH - 2) x = tankFrame.GAME_WIDTH - Tank.WIDTH - 2;
-        if (this.y > tankFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = tankFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
+        if (this.x > TankFrame.GAME_WIDTH - Tank.WIDTH - 2) x = TankFrame.GAME_WIDTH - Tank.WIDTH - 2;
+        if (this.y > TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
     }
 
     private void randomDir() {
@@ -135,24 +148,7 @@ public class Tank {
         this.moving = moving;
     }
 
-    public void fire() {
-        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
-        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
-
-        tankFrame.bulletList.add(new Bullet(bX, bY, this.dir, this.group, this.tankFrame));
-        if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
-    }
-
-    public void die() {
-        this.living = false;
-    }
-
-    public void collidewith(Tank tank) {
-        if (this.group == tank.getGroup()) return;
-        if (rectangle.intersects(tank.rectangle)){
-            tank.die();
-            this.die();
-            tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
-        }
+    public boolean isLiving() {
+        return living;
     }
 }
