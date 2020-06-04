@@ -32,14 +32,11 @@ public class Tank {
         rectangle.y = y;
         rectangle.width = WIDTH;
         rectangle.height = HEIGHT;
+
     }
 
-    public void fire() {
-        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
-        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
-
-        tankFrame.bulletList.add(new Bullet(bX, bY, this.dir, this.group, this.tankFrame));
-        if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
+    public void fire(FireStrategy fireStrategy) {
+        fireStrategy.fire(this);
     }
     public void die() {
         this.living = false;
@@ -88,7 +85,7 @@ public class Tank {
                 break;
         }
 
-        if (random.nextInt(100)> 95 && this.group == Group.BAD) this.fire();
+        if (random.nextInt(100)> 95 && this.group == Group.BAD) this.fire(DefaultFireStrategy.getInstance());
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.moving = true;
             randomDir();
@@ -126,6 +123,10 @@ public class Tank {
 
     public Group getGroup() {
         return group;
+    }
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
     }
 
     public void setY(int y) {

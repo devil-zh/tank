@@ -29,6 +29,8 @@ public class Bullet {
         rectangle.y = y;
         rectangle.width = WIDTH;
         rectangle.height = HEIGHT;
+
+        tankFrame.bulletList.add(this);
     }
 
     public void paint(Graphics g) {
