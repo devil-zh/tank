@@ -7,35 +7,36 @@ import java.awt.*;
  * @date 2020-06-01 11:16
  * @description
  */
-public class Bullet {
+public class Bullet extends GameObject{
     private int x, y;
     private Dir dir;
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static final int SPEED = PropertiesMgr.getInstance().getInt("bulletSpeed");
     private boolean living = true;
-    private TankFrame tankFrame;
+    GameModel gameModel;
+
     private Group group = Group.BAD;
     private Rectangle rectangle = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
+    public Bullet(int x, int y, Dir dir, Group group, GameModel gameModel) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
 
         rectangle.x = x;
         rectangle.y = y;
         rectangle.width = WIDTH;
         rectangle.height = HEIGHT;
 
-        tankFrame.bulletList.add(this);
+        gameModel.add(this);
     }
 
     public void paint(Graphics g) {
         if (!living){
-            tankFrame.bulletList.remove(this);
+            gameModel.remove(this);
         }
         switch (dir){
             case UP:
@@ -72,27 +73,20 @@ public class Bullet {
         //update rectangle
         rectangle.x = this.x;
         rectangle.y = this.y;
-        if (x < 0 || y < 0 || x > tankFrame.GAME_WIDTH || y > tankFrame.GAME_HEIGHT) living = false;
+        if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) living = false;
     }
-    //敌我子弹相互抵消
-    public void collidewithBullet(Bullet bullet) {
-        if (this.group == bullet.getGroup()) return;
-        if (rectangle.intersects(bullet.rectangle)){
-            bullet.die();
-            this.die();
-        }
-    }
+
 
     public void collidewithTank(Tank tank) {
         if (this.group == tank.getGroup()) return;
         if (rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
-            tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
+            gameModel.add(new Expload(tank.getX(), tank.getY(),gameModel ));
         }
     }
 
-    private void die() {
+    public void die() {
         this.living = false;
     }
 
@@ -114,5 +108,9 @@ public class Bullet {
 
     public Group getGroup() {
         return group;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }

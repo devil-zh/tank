@@ -8,10 +8,10 @@ import java.util.Random;
  * @date 2020-06-01 10:27
  * @description 坦克实体类
  */
-public class Tank {
+public class Tank extends GameObject{
     private int x, y;
     private Dir dir = Dir.DOWN;
-    private boolean moving =false;
+    private boolean moving = false;
     private static final int SPEED = PropertiesMgr.getInstance().getInt("tankSpeed");
     private TankFrame tankFrame;
     private boolean living = true;
@@ -20,13 +20,14 @@ public class Tank {
     public static final int WIDTH = ResourceMgr.goodTankD.getWidth();
     public static final int HEIGHT = ResourceMgr.goodTankD.getHeight();
     Rectangle rectangle = new Rectangle();
+    GameModel gameModel;
 
-    public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame){
+    public Tank(int x, int y, Dir dir, Group group, GameModel gameModel) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
 
         rectangle.x = x;
         rectangle.y = y;
@@ -38,21 +39,23 @@ public class Tank {
     public void fire(FireStrategy fireStrategy) {
         fireStrategy.fire(this);
     }
+
     public void die() {
         this.living = false;
     }
+
     public void collidewith(Tank tank) {
         if (this.group == tank.getGroup()) return;
-        if (rectangle.intersects(tank.rectangle)){
+        if (rectangle.intersects(tank.rectangle)) {
             tank.die();
             this.die();
-            tankFrame.exploadList.add(new Expload(tank.getX(), tank.getY(),tankFrame ));
+            gameModel.gameObjects.add(new Expload(tank.getX(), tank.getY(), gameModel));
         }
     }
 
     public void paint(Graphics g) {
-        if (!living) tankFrame.tankList.remove(this);
-        switch (dir){
+        if (!living) gameModel.remove(this);
+        switch (dir) {
             case UP:
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                 break;
@@ -68,24 +71,25 @@ public class Tank {
         }
         move();
     }
+
     private void move() {
         if (moving)
-        switch (dir){
-            case UP:
-                y -= SPEED;
-                break;
-            case DOWN:
-                y += SPEED;
-                break;
-            case LEFT:
-                x -= SPEED;
-                break;
-            case RIGHT:
-                x += SPEED;
-                break;
-        }
+            switch (dir) {
+                case UP:
+                    y -= SPEED;
+                    break;
+                case DOWN:
+                    y += SPEED;
+                    break;
+                case LEFT:
+                    x -= SPEED;
+                    break;
+                case RIGHT:
+                    x += SPEED;
+                    break;
+            }
 
-        if (random.nextInt(100)> 95 && this.group == Group.BAD) this.fire(DefaultFireStrategy.getInstance());
+        if (random.nextInt(100) > 95 && this.group == Group.BAD) this.fire(DefaultFireStrategy.getInstance());
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.moving = true;
             randomDir();
@@ -151,5 +155,9 @@ public class Tank {
 
     public boolean isLiving() {
         return living;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }
