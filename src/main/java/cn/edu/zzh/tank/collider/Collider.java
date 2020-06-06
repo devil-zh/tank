@@ -1,7 +1,6 @@
 package cn.edu.zzh.tank.collider;
 
 
-import cn.edu.zzh.tank.GameModel;
 import cn.edu.zzh.tank.GameObject;
 
 public interface Collider {

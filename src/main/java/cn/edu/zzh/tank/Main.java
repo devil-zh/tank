@@ -1,7 +1,5 @@
 package cn.edu.zzh.tank;
 
-import java.util.Random;
-
 /**
  * @author zzh
  * @date 2020-05-31 20:58

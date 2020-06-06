@@ -9,7 +9,6 @@ import java.util.Random;
  * @description 坦克实体类
  */
 public class Tank extends GameObject{
-    private int x, y;
     private Dir dir = Dir.DOWN;
     private boolean moving = false;
     private static final int SPEED = PropertiesMgr.getInstance().getInt("tankSpeed");
@@ -39,15 +38,6 @@ public class Tank extends GameObject{
 
     public void die() {
         this.living = false;
-    }
-
-    public void collidewith(Tank tank) {
-        if (this.group == tank.getGroup()) return;
-        if (rectangle.intersects(tank.rectangle)) {
-            tank.die();
-            this.die();
-            GameModel.getInstance().add(new Expload(tank.getX(), tank.getY()));
-        }
     }
 
     public void paint(Graphics g) {

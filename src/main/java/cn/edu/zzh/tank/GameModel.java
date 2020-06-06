@@ -26,11 +26,12 @@ public enum GameModel {
         for (int i = 0; i < initializationCount; i++) {
             gameObjects.add(new Tank(new Random().nextInt(500)+ i*80,100,Dir.DOWN, Group.BAD));
         }
+        gameObjects.add(myTank);
         add(new Wall(150,150,200,50));
         add(new Wall(550,150,200,50));
         add(new Wall(300,300,50,200));
         add(new Wall(550,300,50,200));
-        gameObjects.add(myTank);
+
     }
     public void add(GameObject gameObject){
         this.gameObjects.add(gameObject);

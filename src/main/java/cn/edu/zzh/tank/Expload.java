@@ -8,7 +8,6 @@ import java.awt.*;
  * @description
  */
 public class Expload extends GameObject{
-    private int x, y;
     public static final int WIDTH = ResourceMgr.exploads[0].getWidth();
     public static final int HEIGHT = ResourceMgr.exploads[0].getHeight();
     private boolean living = true;
@@ -18,6 +17,7 @@ public class Expload extends GameObject{
     public Expload(int x, int y) {
         this.x = x;
         this.y = y;
+        GameModel.getInstance().add(this);
         new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 

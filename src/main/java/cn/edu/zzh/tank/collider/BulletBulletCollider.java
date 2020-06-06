@@ -1,6 +1,7 @@
 package cn.edu.zzh.tank.collider;
 
-import cn.edu.zzh.tank.*;
+import cn.edu.zzh.tank.Bullet;
+import cn.edu.zzh.tank.GameObject;
 
 /**
  * @author zzh

@@ -8,13 +8,11 @@ import java.awt.*;
  * @description
  */
 public class Bullet extends GameObject{
-    private int x, y;
     private Dir dir;
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static final int SPEED = PropertiesMgr.getInstance().getInt("bulletSpeed");
     private boolean living = true;
-
     private Group group = Group.BAD;
     private Rectangle rectangle = new Rectangle();
 

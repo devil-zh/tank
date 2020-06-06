@@ -1,7 +1,6 @@
 package cn.edu.zzh.tank.collider;
 
 import cn.edu.zzh.tank.Expload;
-import cn.edu.zzh.tank.GameModel;
 import cn.edu.zzh.tank.GameObject;
 import cn.edu.zzh.tank.Tank;
 
@@ -18,8 +17,7 @@ public class TankTankCollider implements Collider {
 				tank2.die();
 				int eX = tank1.getX() + Tank.WIDTH/2 - Expload.WIDTH/2;
 				int eY = tank1.getY() + Tank.HEIGHT/2 - Expload.HEIGHT/2;
-
-				GameModel.getInstance().add(new Expload(eX, eY));
+				new Expload(eX, eY);
 				return true;
 			}
 			
