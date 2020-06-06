@@ -15,9 +15,6 @@ import java.util.List;
  */
 public class TankFrame extends Frame {
 
-    GameModel gameModel = new GameModel();
-
-
     static final int GAME_WIDTH = PropertiesMgr.getInstance().getInt("GAME_WIDTH");
     static final int GAME_HEIGHT = PropertiesMgr.getInstance().getInt("GAME_HEIGHT");
 
@@ -54,7 +51,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        gameModel.paint(g);
+        GameModel.getInstance().paint(g);
 
     }
 
@@ -81,7 +78,7 @@ public class TankFrame extends Frame {
                     bS = true;
                     break;
                 case KeyEvent.VK_J:
-                    gameModel.myTank.fire(FourDirFireStrategy.getInstance());
+                    GameModel.getInstance().myTank.fire(FourDirFireStrategy.getInstance());
                     break;
             }
             setMainTankDir();
@@ -111,7 +108,7 @@ public class TankFrame extends Frame {
 
         //设置方向
         private void setMainTankDir() {
-             Tank myTank = gameModel.myTank;
+             Tank myTank = GameModel.getInstance().myTank;
             if (!bW && !bD && !bS && !bA) {
                 myTank.setMoving(false);
             } else {

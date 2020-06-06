@@ -8,7 +8,7 @@ import cn.edu.zzh.tank.Tank;
 public class TankTankCollider implements Collider {
 
 	@Override
-	public boolean collide(GameObject o1, GameObject o2, GameModel gameModel) {
+	public boolean collide(GameObject o1, GameObject o2) {
 		if(o1 instanceof Tank && o2 instanceof Tank) {
 			Tank tank1 = (Tank)o1;
 			Tank tank2 = (Tank)o2;
@@ -19,7 +19,7 @@ public class TankTankCollider implements Collider {
 				int eX = tank1.getX() + Tank.WIDTH/2 - Expload.WIDTH/2;
 				int eY = tank1.getY() + Tank.HEIGHT/2 - Expload.HEIGHT/2;
 
-				gameModel.add(new Expload(eX, eY, gameModel));
+				GameModel.getInstance().add(new Expload(eX, eY));
 				return true;
 			}
 			

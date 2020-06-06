@@ -14,29 +14,27 @@ public class Bullet extends GameObject{
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static final int SPEED = PropertiesMgr.getInstance().getInt("bulletSpeed");
     private boolean living = true;
-    GameModel gameModel;
 
     private Group group = Group.BAD;
     private Rectangle rectangle = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir, Group group, GameModel gameModel) {
+    public Bullet(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.gameModel = gameModel;
 
         rectangle.x = x;
         rectangle.y = y;
         rectangle.width = WIDTH;
         rectangle.height = HEIGHT;
 
-        gameModel.add(this);
+        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics g) {
         if (!living){
-            gameModel.remove(this);
+            GameModel.getInstance().remove(this);
         }
         switch (dir){
             case UP:
@@ -82,7 +80,7 @@ public class Bullet extends GameObject{
         if (rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
-            gameModel.add(new Expload(tank.getX(), tank.getY(),gameModel ));
+            GameModel.getInstance().add(new Expload(tank.getX(), tank.getY()));
         }
     }
 

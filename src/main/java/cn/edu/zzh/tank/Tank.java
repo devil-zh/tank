@@ -13,21 +13,18 @@ public class Tank extends GameObject{
     private Dir dir = Dir.DOWN;
     private boolean moving = false;
     private static final int SPEED = PropertiesMgr.getInstance().getInt("tankSpeed");
-    private TankFrame tankFrame;
     private boolean living = true;
     private Group group = Group.BAD;
     private Random random = new Random();
     public static final int WIDTH = ResourceMgr.goodTankD.getWidth();
     public static final int HEIGHT = ResourceMgr.goodTankD.getHeight();
     Rectangle rectangle = new Rectangle();
-    GameModel gameModel;
 
-    public Tank(int x, int y, Dir dir, Group group, GameModel gameModel) {
+    public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.gameModel = gameModel;
 
         rectangle.x = x;
         rectangle.y = y;
@@ -49,12 +46,12 @@ public class Tank extends GameObject{
         if (rectangle.intersects(tank.rectangle)) {
             tank.die();
             this.die();
-            gameModel.gameObjects.add(new Expload(tank.getX(), tank.getY(), gameModel));
+            GameModel.getInstance().add(new Expload(tank.getX(), tank.getY()));
         }
     }
 
     public void paint(Graphics g) {
-        if (!living) gameModel.remove(this);
+        if (!living) GameModel.getInstance().remove(this);
         switch (dir) {
             case UP:
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
@@ -117,24 +114,12 @@ public class Tank extends GameObject{
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
 
     public Group getGroup() {
         return group;
-    }
-
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public Dir getDir() {
